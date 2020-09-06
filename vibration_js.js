@@ -72,11 +72,11 @@ var onDeviceMotion = function (eventData) {
 };
 
 var onGyroscope = function(e) {
-    rotationHandler({
-      alpha: gyroscope.x,
-      beta: gyroscope.y,
-      gamma: gyroscope.z
-    }, new Date().getTime() - firstReadingTimestamp);
+  rotationHandler({
+    alpha: gyroscope.x,
+    beta: gyroscope.y,
+    gamma: gyroscope.z
+  }, new Date().getTime() - firstReadingTimestamp);
 };
 
 var gyroscope = null;
@@ -95,15 +95,6 @@ function startGyroscope() {
   }
 }
 
-function stopGyroscope() {
-  if ('Gyroscope' in window) {
-    gyroscope.removeEventListener('reading', onGyroscope);
-    gyroscope.stop();
-  } else if ('DeviceMotionEvent' in window) {
-    window.removeEventListener('devicemotion', onDeviceMotion);
-  }
-}
-
 function rotationHandler(rotation, timestamp) {
   var val;
   
@@ -118,12 +109,24 @@ function rotationHandler(rotation, timestamp) {
     y: val
   });
 }
+/*******************END OF CODE ADAPTATION  *****************/
+
+
+function stopGyroscope() {
+  if ('Gyroscope' in window) {
+    gyroscope.removeEventListener('reading', onGyroscope);
+    gyroscope.stop();
+  } else if ('DeviceMotionEvent' in window) {
+    window.removeEventListener('devicemotion', onDeviceMotion);
+  }
+}
+
 function updateGraph() {
   scatterChartData.datasets[0].data = chartDataVibration;
   scatterChartData.datasets[1].data = chartDataSound;
   window.myScatter.update();
 }
-/*******************END OF CODE ADAPTATION  *****************/
+
 
 
 
@@ -136,41 +139,41 @@ var meter = null;
 var rafID = null;
 
 function startAudio() {
-    chartDataSound = [];
-    // monkeypatch Web Audio
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	
-    // grab an audio context
-    audioContext = new AudioContext();
+  chartDataSound = [];
+  // monkeypatch Web Audio
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-    // Attempt to get audio input
-    try {
-        // monkeypatch getUserMedia
-        navigator.getUserMedia = 
-        	navigator.getUserMedia ||
-        	navigator.webkitGetUserMedia ||
-        	navigator.mozGetUserMedia;
+  // grab an audio context
+  audioContext = new AudioContext();
 
-        // ask for an audio input
-        navigator.getUserMedia(
-        {
-            "audio": {
-                "mandatory": {
-                    "googEchoCancellation": "false",
-                    "googAutoGainControl": "false",
-                    "googNoiseSuppression": "false",
-                    "googHighpassFilter": "false"
-                },
-                "optional": []
-            },
-        }, gotStream, didntGetStream);
-    } catch (e) {
-        alert('getUserMedia threw exception :' + e);
-    }
+  // Attempt to get audio input
+  try {
+    // monkeypatch getUserMedia
+    navigator.getUserMedia = 
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia;
+
+    // ask for an audio input
+    navigator.getUserMedia(
+    {
+      "audio": {
+        "mandatory": {
+          "googEchoCancellation": "false",
+          "googAutoGainControl": "false",
+          "googNoiseSuppression": "false",
+          "googHighpassFilter": "false"
+        },
+        "optional": []
+      },
+    }, gotStream, didntGetStream);
+  } catch (e) {
+    alert('getUserMedia threw exception :' + e);
+  }
 }
 
 function didntGetStream() {
-    alert('Stream generation failed.');
+  alert('Stream generation failed.');
 }
 
 var mediaStreamSource = null;
@@ -217,6 +220,8 @@ function stopAudio() {
     track.stop();
   });
 }
+/*******************END OF CODE ADAPTATION  *****************/
+
 
 function startx() {
   firstReadingTimestamp = new Date().getTime();
@@ -229,7 +234,6 @@ function stopx() {
   stopGyroscope();
   stopAudio();
 }
-/*******************END OF CODE ADAPTATION  *****************/
 
 
 
@@ -266,6 +270,10 @@ function createRecorder(stream) {
 
   mediaRecorder.start();
 };
+/*******************END OF CODE ADAPTATION  *****************/
+
+
+
 
 function downloadArray(id, arr) {
   var csvContent = "";
@@ -278,4 +286,3 @@ function downloadArray(id, arr) {
   link.setAttribute("href", url);
   link.setAttribute("download", id + ".csv");
 }
-/*******************END OF CODE ADAPTATION  *****************/
