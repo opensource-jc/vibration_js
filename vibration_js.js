@@ -63,7 +63,9 @@ window.onload = function() {
 
 
 
-// adapted from https://whatwebcando.today/device-motion.html
+// code adapted from https://whatwebcando.today/device-motion.html
+// originally created by https://adambar.pl/ under creative commons
+// (CC BY-SA 4.0)
 var onDeviceMotion = function (eventData) {
   accumTimestamp = accumTimestamp + eventData.interval
   rotationHandler(eventData.rotationRate, accumTimestamp);
@@ -121,11 +123,13 @@ function updateGraph() {
   scatterChartData.datasets[1].data = chartDataSound;
   window.myScatter.update();
 }
-
+/*******************END OF CODE ADAPTATION  *****************/
 
 
 
 // adapted from https://github.com/cwilso/volume-meter/
+// originally created by Chris Wilson
+// and licensed under The MIT License (MIT)
 var audioContext = null;
 var userMediaStream = null;
 var meter = null;
@@ -225,11 +229,13 @@ function stopx() {
   stopGyroscope();
   stopAudio();
 }
-
+/*******************END OF CODE ADAPTATION  *****************/
 
 
 
 // adpated from https://developers.google.com/web/fundamentals/media/recording-audio
+// originally created by Paul Kinlan
+// under Apache 2.0 License
 let shouldStop = false;
 let stopped = false;
 const downloadLink = document.getElementById('download');
@@ -272,3 +278,4 @@ function downloadArray(id, arr) {
   link.setAttribute("href", url);
   link.setAttribute("download", id + ".csv");
 }
+/*******************END OF CODE ADAPTATION  *****************/
